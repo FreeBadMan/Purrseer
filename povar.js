@@ -2,9 +2,7 @@ const http = require('http');
 const qs = require('querystring');
 const MongoClient = require('mongodb').MongoClient;
 
-const server = http.createServer(function (req, res) {
-  res.end();
-}).listen(8000);
+const server = http.createServer().listen(8000);
 
 
 var givenTasks=[];
@@ -20,24 +18,23 @@ client.connect(function(err, client) {
 
 	server.on('request', function (req, res) {
 
-		if (req.method === 'GET') {
-			res.writeHead(200)//говорим, что все ок
-			console.log(tasks.findOneAndUpdate(
-				{busy: false},
-				{$set: {busy: true}},function(err, r) {
-					let id = r.value._id;
-					let newTask  = r.value
+		switch (req.method) {
+			case 'GET':
+				console.log(tasks.findOneAndUpdate(
+					{busy: false},
+					{$set: {busy: true}},function(err, r) {
+						let id = r.value._id;
+						let newTask  = r.value;
 
-					givenTasks[r.value._id] = r.value;//переносим задание в массив с выданными заданиями
-					
-					res.write(newTask);//отправляем id задания и ссылку, на которой надо искать
-					res.end();
-				}
-			));
-
-
-		} else {
-			if (req.method === 'POST') {
+						givenTasks[id] = newTask;//переносим задание в массив с выданными заданиями
+						res.writeHead(200);//говорим, что все ок
+						res.write(JSON.stringify(newTask));//отправляем id задания и ссылку, на которой надо искать
+						res.end();
+					}
+				));
+				break;
+			case 'POST':
+				/**
 				var body = '';
 
 				req.on('data', function (data) {
@@ -74,7 +71,8 @@ client.connect(function(err, client) {
 						res.end();
 					}
 				});
-			}
+				 **/
+				break;
 		}
 	});
 });
