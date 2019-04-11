@@ -1,0 +1,22 @@
+{
+  "name": "purrseer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "povar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreeBadMan/Purrseer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FreeBadMan/Purrseer/issues"
+  },
+  "homepage": "https://github.com/FreeBadMan/Purrseer#readme",
+  "dependencies": {
+    "mongodb": "^3.2.2"
+  }
+}
